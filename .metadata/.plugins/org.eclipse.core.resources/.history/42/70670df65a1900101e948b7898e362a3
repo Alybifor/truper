@@ -1,0 +1,14 @@
+/**
+ * 
+ */
+package com.example.dto;
+
+import javax.validation.Valid;
+
+/**
+ * 
+ */
+@Valid
+public class ClientesDTO {
+
+}

@@ -1,0 +1,60 @@
+/**
+ * 
+ */
+package com.example.service.impl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.dto.ClientesDTO;
+import com.example.entity.Clientes;
+import com.example.entity.ListaCompra;
+import com.example.repository.ClientesRepository;
+import com.example.service.ClientesService;
+
+/**
+ * 
+ */
+@Service
+public class ClientesServiceImpl implements ClientesService {
+	
+	@Autowired
+	private ClientesRepository clientesRepository;
+
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Clientes> findByIdCliente(int idCliente) {
+		
+		try {
+			Optional<Clientes> cliente =  clientesRepository.findById(idCliente);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return null;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public boolean saveClientes(ClientesDTO cliente) {
+		boolean guarda = false;
+		try {
+			ListaCompra listCompra = new ListaCompra();
+			listCompra.setNombre(cliente.getNombreListaCompra());
+			Clientes _cliente = new Clientes();
+			_cliente.setNombre(cliente.getNombreCliente());
+			//_cliente.set
+			clientesRepository.save(_cliente);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
+	}
+
+}

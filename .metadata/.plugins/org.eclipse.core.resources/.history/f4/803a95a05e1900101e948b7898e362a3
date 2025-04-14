@@ -1,0 +1,104 @@
+/**
+ * 
+ */
+package com.example.entity;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+
+/**
+ * 
+ */
+@Entity
+@Table(name = "clientes")
+public class Clientes implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int idCliente;
+	
+	@Column
+	private String nombre;
+	
+	@Column
+	private boolean activo;
+	
+	@OneToMany(mappedBy = "clientes")
+	private List<ListaCompra> listaCompra;
+
+	/**
+	 * 
+	 */
+	public Clientes() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param idCliente
+	 * @param nombre
+	 * @param activo
+	 */
+	public Clientes(String nombre, boolean activo) {
+		this.nombre = nombre;
+		this.activo = activo;
+	}
+
+	/**
+	 * @return the idCliente
+	 */
+	public int getIdCliente() {
+		return idCliente;
+	}
+
+	/**
+	 * @param idCliente the idCliente to set
+	 */
+	public void setIdCliente(int idCliente) {
+		this.idCliente = idCliente;
+	}
+
+	/**
+	 * @return the nombre
+	 */
+	public String getNombre() {
+		return nombre;
+	}
+
+	/**
+	 * @param nombre the nombre to set
+	 */
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	/**
+	 * @return the activo
+	 */
+	public boolean isActivo() {
+		return activo;
+	}
+
+	/**
+	 * @param activo the activo to set
+	 */
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+	
+	@PrePersist
+	private void statusCliente () {
+		this.setActivo(true);
+	}
+
+}

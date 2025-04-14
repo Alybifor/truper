@@ -1,0 +1,66 @@
+/**
+ * 
+ */
+package com.example.service.impl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.dto.ClientesDTO;
+import com.example.entity.Clientes;
+import com.example.entity.ListaCompra;
+import com.example.repository.ClientesRepository;
+import com.example.service.ClientesService;
+
+/**
+ * 
+ */
+@Service
+public class ClientesServiceImpl implements ClientesService {
+	
+	private static final Logger log = LoggerFactory.getLogger(ClientesServiceImpl.class);
+	
+	@Autowired
+	private ClientesRepository clientesRepository;
+
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Clientes> findByIdCliente(int idCliente) {
+		
+		try {
+			Optional<Clientes> cliente =  clientesRepository.findById(idCliente);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return null;
+	}
+
+	@Override
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public boolean saveClientes(ClientesDTO cliente) {
+		boolean guarda = false;
+		try {
+			ListaCompra listCompra = new ListaCompra();
+			listCompra.setNombre(cliente.getNombreListaCompra());
+			Clientes _cliente = new Clientes();
+			_cliente.setNombre(cliente.getNombreCliente());
+			_cliente.getListaCompra().add(listCompra);
+			clientesRepository.save(_cliente);
+			guarda = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			log.info("No se guardo el cliente: ", e.getCause());
+		}
+		return guarda;
+	}
+
+}

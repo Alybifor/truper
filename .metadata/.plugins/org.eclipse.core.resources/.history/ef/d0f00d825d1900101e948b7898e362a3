@@ -1,0 +1,26 @@
+/**
+ * 
+ */
+package com.example.dto;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+/**
+ * 
+ */
+@Valid
+public class ClientesDTO {
+	
+	@NotNull
+	@NotBlank
+	@NotBlank
+	private String nombreCliente;
+	
+	@NotNull
+	@NotBlank
+	@NotBlank
+	private String nombreListaCompra;
+
+}

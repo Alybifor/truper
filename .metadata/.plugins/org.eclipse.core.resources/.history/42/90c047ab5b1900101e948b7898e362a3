@@ -1,0 +1,157 @@
+/**
+ * 
+ */
+package com.example.entity;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
+
+/**
+ * 
+ */
+@Entity
+@Table(name = "lista_compra")
+public class ListaCompra implements Serializable{
+	
+	private static final long serialVersionUID = -233880211504299769L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int idLista;
+	
+	@Column
+	private String nombre;
+	
+	@Column
+	private LocalDate fechaRegistro;
+	
+	@Column
+	private LocalDate fechaUltimoRegistro;
+	
+	@Column
+	private boolean activo;
+	
+	@ManyToOne
+	@JoinColumn(name = "customer_id")
+	private Clientes clientes;
+
+	/**
+	 * 
+	 */
+	public ListaCompra() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param idLista
+	 * @param nombre
+	 * @param fechaRegistro
+	 * @param fechaUltimoRegistro
+	 * @param activo
+	 */
+	public ListaCompra(String nombre, LocalDate fechaRegistro, LocalDate fechaUltimoRegistro,
+			boolean activo) {
+		this.nombre = nombre;
+		this.fechaRegistro = fechaRegistro;
+		this.fechaUltimoRegistro = fechaUltimoRegistro;
+		this.activo = activo;
+	}
+
+	/**
+	 * @return the idLista
+	 */
+	public int getIdLista() {
+		return idLista;
+	}
+
+	/**
+	 * @param idLista the idLista to set
+	 */
+	public void setIdLista(int idLista) {
+		this.idLista = idLista;
+	}
+
+	/**
+	 * @return the nombre
+	 */
+	public String getNombre() {
+		return nombre;
+	}
+
+	/**
+	 * @param nombre the nombre to set
+	 */
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	/**
+	 * @return the fechaRegistro
+	 */
+	public LocalDate getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	/**
+	 * @param fechaRegistro the fechaRegistro to set
+	 */
+	public void setFechaRegistro(LocalDate fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
+	/**
+	 * @return the fechaUltimoRegistro
+	 */
+	public LocalDate getFechaUltimoRegistro() {
+		return fechaUltimoRegistro;
+	}
+
+	/**
+	 * @param fechaUltimoRegistro the fechaUltimoRegistro to set
+	 */
+	public void setFechaUltimoRegistro(LocalDate fechaUltimoRegistro) {
+		this.fechaUltimoRegistro = fechaUltimoRegistro;
+	}
+
+	/**
+	 * @return the activo
+	 */
+	public boolean isActivo() {
+		return activo;
+	}
+
+	/**
+	 * @param activo the activo to set
+	 */
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+	
+	@PrePersist
+	private void setStatusClient() {
+		this.setActivo(true);
+	}
+	
+	@PrePersist
+	private void setFechaRegistroCompra() {
+		this.setFechaRegistro(LocalDate.now());
+	}
+	
+	@PreUpdate
+	private void setFechaActualizaCompra() {
+		this.setFechaUltimoRegistro(LocalDate.now());
+	}
+	
+
+}
